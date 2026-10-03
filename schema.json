@@ -1,0 +1,33 @@
+{
+  "schema_name": "reading-shelf",
+  "schema_version": "0.2.0",
+  "design_principles": [
+    "stable UUIDs",
+    "platform-neutral records",
+    "lossless export",
+    "uncertainty-aware dates",
+    "book is distinct from edition",
+    "reading journey is distinct from book",
+    "notes and ideas remain linkable"
+  ],
+  "planned_record_types": [
+    "books",
+    "editions",
+    "acquisition_events",
+    "reading_journeys",
+    "reading_sessions",
+    "notes",
+    "ideas",
+    "links",
+    "assets"
+  ],
+  "date_precision": [
+    "day",
+    "week",
+    "month",
+    "season",
+    "year",
+    "range",
+    "unknown"
+  ]
+}

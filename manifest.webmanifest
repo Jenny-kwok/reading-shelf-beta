@@ -1,0 +1,9 @@
+{
+  "name": "Reading Shelf",
+  "short_name": "Reading Shelf",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F3F0EA",
+  "theme_color": "#F3F0EA",
+  "description": "A scholarly, soft and warm local-first personal reading archive."
+}
