@@ -15,7 +15,13 @@
     "capture context once and inherit until it changes",
     "metadata is progressively enrichable",
     "first Start creates Day 1; later Starts create sessions",
-    "historical facts remain distinct from measured app events"
+    "historical facts remain distinct from measured app events",
+    "new acquisitions always enter the uncategorized Shelf",
+    "Shelf is a library state, not the first stage of a required pipeline",
+    "from Shelf, a book may move directly to Currently Reading or optionally to Up Next",
+    "Up Next is optional and never a prerequisite for reading",
+    "status is decided when a Shelf book is pulled out, not during acquisition",
+    "reader feedback capture is text-first; classification is optional"
   ],
   "record_types": [
     "books",

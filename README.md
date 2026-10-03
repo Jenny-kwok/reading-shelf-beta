@@ -19,3 +19,9 @@ V0.4 includes a Reader Feedback view for dogfooding notes. Feedback is timestamp
 - Everything (.json): reading data + feedback + settings.
 - Reading records (.json/.csv): book/reading archive without beta feedback.
 - Feedback only (.json/.csv): developer-facing dogfooding notes.
+
+## Shelf flow
+Every new book lands in **The Shelf**. When you pull it out, choose **Up Next** or **Start Reading**. Up Next is optional, not a required intermediate stage.
+
+## Feedback capture
+Open **Feedback** and type immediately in the large text box. **Save** is the only required action; classification is optional.

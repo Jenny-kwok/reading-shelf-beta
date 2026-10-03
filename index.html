@@ -47,13 +47,15 @@
 
     <section id="feedbackView" class="view">
       <div class="viewTitle"><h2>Reader Feedback</h2><button class="infoBtn" data-help="feedback" aria-label="About Reader Feedback">i</button></div>
-      <div class="exportCard">
-        <h3>Jot something down</h3>
-        <p class="muted">Capture friction, bugs, wishes or observations while you are actually using the app.</p>
-        <label>Type<select id="feedbackType"><option>Friction</option><option>Bug</option><option>Feature idea</option><option>Question</option><option>Observation</option></select></label>
-        <label>Note<textarea id="feedbackText" rows="4" placeholder="What happened? What did you expect instead?"></textarea></label>
-        <label>Where<select id="feedbackArea"><option>General</option><option>Shelf</option><option>Add Book</option><option>Book Details</option><option>Timer / Sessions</option><option>Journey</option><option>Ideas</option><option>Export / Data</option></select></label>
-        <button class="primary" id="saveFeedback">Save feedback</button>
+      <div class="exportCard feedbackCapture">
+        <h3>What did you notice?</h3>
+        <textarea id="feedbackText" rows="6" autofocus placeholder="Type anything you notice while using the app…"></textarea>
+        <button class="primary" id="saveFeedback">Save</button>
+        <details class="feedbackMeta">
+          <summary>Optional details</summary>
+          <label>Type<select id="feedbackType"><option>Friction</option><option>Bug</option><option>Feature idea</option><option>Question</option><option>Observation</option></select></label>
+          <label>Where<select id="feedbackArea"><option>General</option><option>Shelf</option><option>Add Book</option><option>Book Details</option><option>Timer / Sessions</option><option>Journey</option><option>Ideas</option><option>Export / Data</option></select></label>
+        </details>
       </div>
       <div id="feedbackList"></div>
     </section>
@@ -107,7 +109,6 @@
       <img id="preview" class="preview hidden" alt="Cover preview"/>
       <label>Title <input id="titleInput" placeholder="Title"/></label>
       <label>Author <input id="authorInput" placeholder="Author"/></label>
-      <label>Status<select id="statusInput"><option value="upnext">Up Next</option><option value="reading">Currently Reading</option><option value="shelf">To Read</option></select></label>
       <details open>
         <summary>Acquisition — optional</summary>
         <label>How it came to me<select id="sourceType"><option value="">Unknown / not recorded</option><option>Bought</option><option>Gift</option><option>Borrowed</option><option>Other</option></select></label>

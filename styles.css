@@ -45,3 +45,9 @@ details{border-top:1px solid var(--line);border-bottom:1px solid var(--line);pad
 .devNoteInput{width:100%;box-sizing:border-box;resize:vertical;border:1px solid var(--line);border-radius:14px;background:var(--paper-2);color:var(--ink);padding:12px;font:inherit;margin:8px 0 10px}.devNotesList{margin-top:14px}.devNote{position:relative;border-top:1px solid var(--line);padding:12px 64px 10px 0;font-size:13px;line-height:1.45}.devNote small{display:block;color:var(--muted);margin-top:5px}.deleteDevNote{position:absolute;right:0;top:10px;border:0;background:none;color:var(--muted);font-size:11px;padding:4px}
 
 textarea{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:12px;background:var(--paper-2);color:var(--ink);padding:12px;font:inherit;resize:vertical}.bottom{overflow-x:auto}.bottom button{min-width:max-content}
+
+.feedbackCapture textarea{min-height:150px;font-size:16px;margin:8px 0 10px}
+.feedbackMeta{margin-top:12px}.feedbackMeta summary{color:var(--muted);font-size:13px;cursor:pointer}
+.shelfActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.shelfActions button{font-size:12px;padding:7px 9px}
+.readNowBtn{background:var(--ink);color:var(--paper)}

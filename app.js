@@ -29,10 +29,20 @@ function totalMs(b){return (b.sessions||[]).reduce((n,s)=>n+((s.end||now())-s.st
 function duration(ms){let m=Math.max(0,Math.floor(ms/60000)),h=Math.floor(m/60);return h?`${h}h ${m%60}m`:`${m}m`}
 function dayNo(b){if(!b.firstStartedAt)return "Not started";const end=b.finishedAt?new Date(b.finishedAt):new Date();return `Day ${Math.max(1,Math.ceil((end-new Date(b.firstStartedAt))/86400000))}`}
 function fmtDate(x){return x?new Date(x).toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"}):"—"}
-function card(b,timer=true){return `<article class="book" data-id="${b.id}">
+function card(b,timer=true){
+ const isShelf=b.status==="shelf";
+ const hasStarted=!!b.firstStartedAt;
+ let action="";
+ if(isShelf){
+   action=`<div class="shelfActions"><button class="queueBtn">Up Next</button><button class="readNowBtn">${hasStarted?"Resume Reading":"Start Reading"}</button></div>`;
+ } else if(timer){
+   action=`<button class="timerBtn ${state.active===b.id?"running":""}">${state.active===b.id?"Ⅱ Pause":hasStarted?"▶ Resume Reading":"▶ Start Reading"}</button>`;
+ }
+ return `<article class="book" data-id="${b.id}">
  <div class="openBook">${b.cover?`<img class="cover" src="${b.cover}" alt="">`:`<div class="cover placeholder">${esc(b.title)}</div>`}</div>
  <div class="bookTitle">${esc(b.title)}</div><div class="meta">${dayNo(b)}${b.firstStartedAt?` · ${duration(totalMs(b))}`:""}</div>
- ${timer?`<button class="timerBtn ${state.active===b.id?"running":""}">${state.active===b.id?"Ⅱ Pause":"▶ Start"}</button>`:""}</article>`}
+ ${action}</article>`;
+}
 function render(){
  const reading=state.books.filter(b=>b.status==="reading"), next=state.books.filter(b=>b.status==="upnext");
  readingRail.innerHTML=reading.map(b=>card(b)).join("")||`<p class="muted">No active books yet.</p>`;
@@ -41,6 +51,8 @@ function render(){
  const q=search.value.toLowerCase();
  libraryGrid.innerHTML=state.books.filter(b=>["shelf","finished"].includes(b.status)&&(`${b.title} ${b.author} ${(b.notes||[]).map(n=>n.text).join(" ")}`).toLowerCase().includes(q)).map(b=>card(b,false)).join("");
  document.querySelectorAll(".timerBtn").forEach(x=>x.onclick=e=>{e.stopPropagation();toggleTimer(x.closest(".book").dataset.id)});
+ document.querySelectorAll(".queueBtn").forEach(x=>x.onclick=e=>{e.stopPropagation();const b=state.books.find(v=>v.id===x.closest(".book").dataset.id);b.status="upnext";save();render()});
+ document.querySelectorAll(".readNowBtn").forEach(x=>x.onclick=e=>{e.stopPropagation();toggleTimer(x.closest(".book").dataset.id)});
  document.querySelectorAll(".openBook").forEach(x=>x.onclick=()=>openBook(x.closest(".book").dataset.id));
  renderJourney();renderIdeas();renderDeveloperNotes();save();
 }
@@ -141,11 +153,11 @@ function prepAdd(){
 }
 addBtn.onclick=()=>{prepAdd();addDialog.showModal()};closeAdd.onclick=()=>addDialog.close();closeBook.onclick=()=>bookDialog.close();
 coverInput.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{preview.src=r.result;preview.classList.remove("hidden")};r.readAsDataURL(f)};
-saveBook.onclick=()=>{const acquisition={type:sourceType.value,place:sourcePlace.value.trim(),when:addDateMode==="unknown"?"":(addDateMode==="vague"?acquiredVague.value.trim():acquiredDateValue.value),precision:addDateMode==="vague"?"range":addDateMode};rememberAcquisition(acquisition);state.books.push({id:uuid(),title:titleInput.value.trim()||"Untitled book",author:authorInput.value.trim(),status:statusInput.value,cover:preview.src&&!preview.classList.contains("hidden")?preview.src:null,addedAt:iso(now()),firstStartedAt:null,finishedAt:null,sessions:[],notes:[],acquisition});save();addDialog.close();render()};
+saveBook.onclick=()=>{const acquisition={type:sourceType.value,place:sourcePlace.value.trim(),when:addDateMode==="unknown"?"":(addDateMode==="vague"?acquiredVague.value.trim():acquiredDateValue.value),precision:addDateMode==="vague"?"range":addDateMode};rememberAcquisition(acquisition);state.books.push({id:uuid(),title:titleInput.value.trim()||"Untitled book",author:authorInput.value.trim(),status:"shelf",cover:preview.src&&!preview.classList.contains("hidden")?preview.src:null,addedAt:iso(now()),firstStartedAt:null,finishedAt:null,sessions:[],notes:[],acquisition});save();addDialog.close();render()};
 search.oninput=render;ideaSearch.oninput=renderIdeas;
 randomBtn.onclick=()=>{const pool=state.books.filter(b=>b.status==="shelf");if(pool.length)openBook(pool[Math.floor(Math.random()*pool.length)].id)};
 const views={home:homeView,journey:journeyView,ideas:ideasView,feedback:feedbackView,data:dataView};
-document.querySelectorAll(".bottom button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".bottom button").forEach(x=>x.classList.remove("active"));b.classList.add("active");Object.values(views).forEach(v=>v.classList.remove("activeView"));views[b.dataset.view].classList.add("activeView");});
+document.querySelectorAll(".bottom button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".bottom button").forEach(x=>x.classList.remove("active"));b.classList.add("active");Object.values(views).forEach(v=>v.classList.remove("activeView"));views[b.dataset.view].classList.add("activeView");if(b.dataset.view==="feedback"){renderFeedback();setTimeout(()=>feedbackText.focus(),50)}});
 
 function renderFeedback(){
  feedbackList.innerHTML=(state.feedback||[]).slice().reverse().map(f=>`<article class="ideaCard"><div class="eyebrow">${esc(f.type.toUpperCase())} · ${esc(f.area.toUpperCase())}</div><p>${esc(f.text)}</p><small>${new Date(f.createdAt).toLocaleString()} · build ${esc(f.appVersion||"0.4")}</small><br><button class="inlineEdit deleteFeedback" data-id="${f.id}">Delete</button></article>`).join("")||`<div class="emptyState"><h3>No feedback yet.</h3><p class="muted">Use this as the beta notebook while you dogfood the app.</p></div>`;
@@ -166,5 +178,5 @@ exportCsv.onclick=()=>{const header=["Title","Author","Status","Acquired","Acqui
  download("reading-shelf-books.csv","text/csv;charset=utf-8","\ufeff"+[header,...rows].map(r=>r.map(csvCell).join(",")).join("\n"))};
 
 exportFeedbackCsv.onclick=()=>{const header=["Created at","Build","Type","Area","Feedback"];const rows=(state.feedback||[]).map(f=>[f.createdAt,f.appVersion,f.type,f.area,f.text]);download("reading-shelf-feedback.csv","text/csv;charset=utf-8","\ufeff"+[header,...rows].map(r=>r.map(csvCell).join(",")).join("\n"))};
-importFile.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!x.books)throw 0;state=x;state.schemaVersion="0.3.0";save();render();alert("Archive restored.")}catch{alert("Could not read this archive.")}};r.readAsText(f)};
+importFile.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!x.books)throw 0;state=x;state.schemaVersion="0.4.0";state.feedback=state.feedback||[];state.settings=state.settings||{lastAcquisition:null,recentPlaces:[]};save();render();renderFeedback();alert("Archive restored.")}catch{alert("Could not read this archive.")}};r.readAsText(f)};
 setInterval(()=>{if(state.active)render()},30000);render();renderFeedback();
