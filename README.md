@@ -1,27 +1,17 @@
-# Reading Shelf V0.4
+# Reading Shelf V0.5
 
-Mobile-first, local-first personal reading archive.
+V0.5 is the onboarding/data-safety beta built on V0.4 Final. New books always enter **The Shelf**; **Up Next** is optional; **Start Reading** may move a Shelf book directly to Currently Reading.
 
-V0.4 focuses on the actual capture loop: acquisition context can be inherited and edited later; Start Reading creates Day 1; Resume Reading creates measured sessions; retrospective history can be corrected without pretending it was timer-measured.
+## New in V0.5
+- Camera **or** Photo Library cover input.
+- ISBN/title lookup through Open Library for metadata and covers.
+- Acquisition-place shortcut into Google Maps.
+- CSV/JSON reading-record import with preview.
+- Full archive restore remains separate.
+- Automatic V0.4 → V0.5 local-data migration.
 
-## Storage warning
-This beta still uses browser `localStorage` on the specific website origin/device. It is not a synced cloud database. Clearing Safari website data may remove it. Use **My Reading Data → Full archive backup (.json)** regularly.
+## Interim safety
+The runtime archive is still browser-local. Export **Everything JSON** before major upgrades. V0.5 deliberately does not pretend cloud sync exists.
 
-The app migrates V0.3 data on the same browser/origin when available.
-
-## Planned infrastructure
-IndexedDB + compressed cover assets + versioned migrations; structured place references/map links; photo-based bulk book capture; later optional sync/backend.
-
-## Beta feedback
-V0.4 includes a Reader Feedback view for dogfooding notes. Feedback is timestamped and tagged with the build version and can be exported separately from reading records.
-
-## Export scopes
-- Everything (.json): reading data + feedback + settings.
-- Reading records (.json/.csv): book/reading archive without beta feedback.
-- Feedback only (.json/.csv): developer-facing dogfooding notes.
-
-## Shelf flow
-Every new book lands in **The Shelf**. When you pull it out, choose **Up Next** or **Start Reading**. Up Next is optional, not a required intermediate stage.
-
-## Feedback capture
-Open **Feedback** and type immediately in the large text box. **Save** is the only required action; classification is optional.
+## Import CSV headers
+Recognised fields include: `Title`, `Author`, `ISBN`, `Publisher`, `Publication Year`, `Acquired`, `Acquisition Type`, `Place / from whom`, `First started`, `Finished`, `Language`. Missing fields are allowed. Imported records default to The Shelf. Historical start dates do not create fictional reading sessions.

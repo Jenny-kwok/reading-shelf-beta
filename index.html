@@ -86,7 +86,15 @@
         <button class="primary" id="saveDevNote" type="button">Save note</button>
         <div id="devNotesList" class="devNotesList"></div>
       </div>
-      <label class="photoPick">Restore full archive (.json)<input id="importFile" type="file" accept="application/json"></label>
+      <div class="exportCard">
+        <h3>Import existing reading records</h3><p class="muted">Bring in an existing CSV or JSON reading report. You will preview the rows before anything is added.</p>
+        <label class="photoPick">Import books / reading report<input id="recordsImportFile" type="file" accept=".csv,.json,text/csv,application/json"></label>
+        <div id="importPreview"></div>
+      </div>
+      <div class="exportCard">
+        <h3>Restore a Reading Shelf backup</h3><p class="muted">Use this only for a full archive previously exported by Reading Shelf.</p>
+        <label class="photoPick">Restore full archive (.json)<input id="importFile" type="file" accept="application/json"></label>
+      </div>
     </section>
 
     <nav class="bottom">
@@ -105,7 +113,16 @@
       <button class="close" id="closeAdd">×</button>
       <div class="eyebrow">ADD A BOOK</div><h2>Start with the book itself.</h2>
       <p class="muted">Add it now; reading begins only when you press Start.</p>
-      <label class="photoPick">📷 Choose / take cover photo<input id="coverInput" type="file" accept="image/*" capture="environment"></label>
+      <div class="captureChoices">
+        <label class="photoPick">📷 Take photo<input id="cameraInput" type="file" accept="image/*" capture="environment"></label>
+        <label class="photoPick">▣ Choose from Photos<input id="coverInput" type="file" accept="image/*"></label>
+      </div>
+      <div class="lookupBox">
+        <div class="eyebrow">OR LOOK IT UP</div>
+        <label>ISBN, title, or book link <input id="bookLookup" placeholder="Paste ISBN / Open Library link, or type title"></label>
+        <button id="lookupBook" type="button">Find book metadata</button>
+        <div id="lookupResults"></div>
+      </div>
       <img id="preview" class="preview hidden" alt="Cover preview"/>
       <label>Title <input id="titleInput" placeholder="Title"/></label>
       <label>Author <input id="authorInput" placeholder="Author"/></label>
@@ -114,6 +131,7 @@
         <label>How it came to me<select id="sourceType"><option value="">Unknown / not recorded</option><option>Bought</option><option>Gift</option><option>Borrowed</option><option>Other</option></select></label>
         <label>Place / from whom <input id="sourcePlace" list="recentPlaces" placeholder="e.g. Daikanyama T-Site / a friend"/></label>
         <datalist id="recentPlaces"></datalist>
+        <a id="mapLink" class="mapLink" target="_blank" rel="noopener">Open / find this place in Google Maps ↗</a>
         <div class="dateModes" id="addDateModes">
           <button type="button" data-mode="day" class="selected">Exact</button><button type="button" data-mode="month">Month</button><button type="button" data-mode="year">Year</button><button type="button" data-mode="vague">Around…</button><button type="button" data-mode="unknown">Unknown</button>
         </div>

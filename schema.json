@@ -1,6 +1,6 @@
 {
   "schema_name": "reading-shelf",
-  "schema_version": "0.4.0",
+  "schema_version": "0.5.0",
   "canonical_export": "JSON",
   "design_principles": [
     "stable UUIDs",
@@ -21,7 +21,12 @@
     "from Shelf, a book may move directly to Currently Reading or optionally to Up Next",
     "Up Next is optional and never a prerequisite for reading",
     "status is decided when a Shelf book is pulled out, not during acquisition",
-    "reader feedback capture is text-first; classification is optional"
+    "reader feedback capture is text-first; classification is optional",
+    "photo library upload is distinct from camera capture",
+    "book metadata may be enriched from a public bibliographic lookup and confirmed by the reader",
+    "existing reading reports can be imported with preview before commit",
+    "full archive restore is distinct from records import",
+    "acquisition places may retain a map/search reference without requiring a typed full address"
   ],
   "record_types": [
     "books",
@@ -57,7 +62,9 @@
       "type",
       "place",
       "when",
-      "precision"
+      "precision",
+      "placeUrl",
+      "placeId"
     ],
     "future_place_link": "structured place reference / map provider ID",
     "bulk_capture_ready": true
@@ -85,5 +92,25 @@
       "reading_records",
       "feedback_only"
     ]
+  },
+  "book_metadata": {
+    "fields": [
+      "isbn",
+      "publisher",
+      "publishedYear",
+      "pageCount",
+      "language",
+      "source"
+    ],
+    "progressively_enrichable": true
+  },
+  "imports": {
+    "records": [
+      "CSV",
+      "JSON"
+    ],
+    "preview_before_commit": true,
+    "default_status": "shelf",
+    "restore_full_archive_separate": true
   }
 }
