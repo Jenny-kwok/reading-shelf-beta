@@ -1,6 +1,6 @@
 {
   "schema_name": "reading-shelf",
-  "schema_version": "0.3.0",
+  "schema_version": "0.4.0",
   "canonical_export": "JSON",
   "design_principles": [
     "stable UUIDs",
@@ -11,7 +11,11 @@
     "book is distinct from edition",
     "reading journey is distinct from book",
     "atomic sessions support downstream reports and yearly recaps",
-    "notes and ideas remain linkable"
+    "notes and ideas remain linkable",
+    "capture context once and inherit until it changes",
+    "metadata is progressively enrichable",
+    "first Start creates Day 1; later Starts create sessions",
+    "historical facts remain distinct from measured app events"
   ],
   "record_types": [
     "books",
@@ -22,7 +26,9 @@
     "notes",
     "ideas",
     "links",
-    "assets"
+    "assets",
+    "developer_notes",
+    "reader_feedback"
   ],
   "date_precision": [
     "day",
@@ -38,5 +44,40 @@
     "PDF reading report",
     "yearly recap/share cards",
     "charts"
-  ]
+  ],
+  "acquisition_event": {
+    "shareable_across_books": true,
+    "fields": [
+      "type",
+      "place",
+      "when",
+      "precision"
+    ],
+    "future_place_link": "structured place reference / map provider ID",
+    "bulk_capture_ready": true
+  },
+  "developer_notes": {
+    "fields": [
+      "id",
+      "text",
+      "createdAt"
+    ],
+    "included_in_canonical_json_export": true,
+    "purpose": "dogfooding feedback and development observations"
+  },
+  "reader_feedback": {
+    "fields": [
+      "id",
+      "type",
+      "area",
+      "text",
+      "createdAt",
+      "appVersion"
+    ],
+    "export_scopes": [
+      "all",
+      "reading_records",
+      "feedback_only"
+    ]
+  }
 }

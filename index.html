@@ -45,18 +45,44 @@
       <div id="ideasList"></div>
     </section>
 
+    <section id="feedbackView" class="view">
+      <div class="viewTitle"><h2>Reader Feedback</h2><button class="infoBtn" data-help="feedback" aria-label="About Reader Feedback">i</button></div>
+      <div class="exportCard">
+        <h3>Jot something down</h3>
+        <p class="muted">Capture friction, bugs, wishes or observations while you are actually using the app.</p>
+        <label>Type<select id="feedbackType"><option>Friction</option><option>Bug</option><option>Feature idea</option><option>Question</option><option>Observation</option></select></label>
+        <label>Note<textarea id="feedbackText" rows="4" placeholder="What happened? What did you expect instead?"></textarea></label>
+        <label>Where<select id="feedbackArea"><option>General</option><option>Shelf</option><option>Add Book</option><option>Book Details</option><option>Timer / Sessions</option><option>Journey</option><option>Ideas</option><option>Export / Data</option></select></label>
+        <button class="primary" id="saveFeedback">Save feedback</button>
+      </div>
+      <div id="feedbackList"></div>
+    </section>
+
     <section id="dataView" class="view">
       <div class="viewTitle"><h2>My Reading Data</h2><button class="infoBtn" data-help="data" aria-label="About data">i</button></div>
       <div class="exportCard">
         <h3>Keep a backup</h3><p class="muted">The richest, portable copy of your archive.</p>
-        <button class="primary" id="exportJson">Full archive backup (.json)</button>
+        <button class="primary" id="exportJson">Export everything (.json)</button>
       </div>
       <div class="exportCard">
-        <h3>Open in Excel or Sheets</h3><p class="muted">A readable table of your books and reading history.</p>
-        <button id="exportCsv">Export spreadsheet (.csv)</button>
+        <h3>Reading records</h3><p class="muted">Books, acquisition and reading history without developer feedback.</p>
+        <button id="exportRecordsJson">Reading records (.json)</button>
+        <button id="exportCsv">Reading records (.csv)</button>
+      </div>
+      <div class="exportCard">
+        <h3>Reader feedback</h3><p class="muted">Only your beta-testing notes, useful for the next build.</p>
+        <button id="exportFeedbackJson">Feedback only (.json)</button>
+        <button id="exportFeedbackCsv">Feedback only (.csv)</button>
       </div>
       <div class="exportCard disabledCard">
         <h3>Reading Report</h3><p class="muted">PDF and shareable yearly recap are planned downstream.</p>
+      </div>
+      <div class="exportCard">
+        <h3>Developer Notes</h3>
+        <p class="muted">Jot down friction, bugs, wishes, or odd behaviour while you use the beta. Notes stay with this local archive and are included in the full JSON backup.</p>
+        <textarea id="devNoteInput" class="devNoteInput" rows="4" placeholder="e.g. Adding three books from the same shop feels repetitive…"></textarea>
+        <button class="primary" id="saveDevNote" type="button">Save note</button>
+        <div id="devNotesList" class="devNotesList"></div>
       </div>
       <label class="photoPick">Restore full archive (.json)<input id="importFile" type="file" accept="application/json"></label>
     </section>
@@ -65,6 +91,7 @@
       <button data-view="home" class="active">Shelf</button>
       <button data-view="journey">Journey</button>
       <button data-view="ideas">Ideas</button>
+      <button data-view="feedback">Feedback</button>
       <button data-view="data">•••</button>
     </nav>
   </main>
@@ -84,9 +111,13 @@
       <details open>
         <summary>Acquisition — optional</summary>
         <label>How it came to me<select id="sourceType"><option value="">Unknown / not recorded</option><option>Bought</option><option>Gift</option><option>Borrowed</option><option>Other</option></select></label>
-        <label>Where / from whom <input id="sourcePlace" placeholder="e.g. Daikanyama T-Site / a friend"/></label>
-        <label>When <input id="acquiredWhen" placeholder="e.g. 2026-10-03, Oct 2026, Spring 2024"/></label>
-        <label>Date precision<select id="datePrecision"><option value="unknown">Unknown / free text</option><option value="day">Exact day</option><option value="week">Week</option><option value="month">Month</option><option value="season">Season</option><option value="year">Year</option><option value="range">Approximate range</option></select></label>
+        <label>Place / from whom <input id="sourcePlace" list="recentPlaces" placeholder="e.g. Daikanyama T-Site / a friend"/></label>
+        <datalist id="recentPlaces"></datalist>
+        <div class="dateModes" id="addDateModes">
+          <button type="button" data-mode="day" class="selected">Exact</button><button type="button" data-mode="month">Month</button><button type="button" data-mode="year">Year</button><button type="button" data-mode="vague">Around…</button><button type="button" data-mode="unknown">Unknown</button>
+        </div>
+        <input id="acquiredDateValue" type="date"/>
+        <input id="acquiredVague" class="hidden" placeholder="e.g. Spring 2024 / late 2025"/>
       </details>
       <button class="primary" id="saveBook" type="button">Add to shelf</button>
     </div>
