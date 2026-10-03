@@ -1,16 +1,19 @@
 {
   "schema_name": "reading-shelf",
-  "schema_version": "0.2.0",
+  "schema_version": "0.3.0",
+  "canonical_export": "JSON",
   "design_principles": [
     "stable UUIDs",
     "platform-neutral records",
-    "lossless export",
-    "uncertainty-aware dates",
+    "lossless JSON archive",
+    "CSV as human-friendly tabular view",
+    "uncertainty-aware acquisition dates",
     "book is distinct from edition",
     "reading journey is distinct from book",
+    "atomic sessions support downstream reports and yearly recaps",
     "notes and ideas remain linkable"
   ],
-  "planned_record_types": [
+  "record_types": [
     "books",
     "editions",
     "acquisition_events",
@@ -29,5 +32,11 @@
     "year",
     "range",
     "unknown"
+  ],
+  "downstream_views": [
+    "CSV/XLSX",
+    "PDF reading report",
+    "yearly recap/share cards",
+    "charts"
   ]
 }

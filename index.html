@@ -14,76 +14,85 @@
 <body>
   <main class="shell">
     <header class="topbar">
-      <div>
-        <div class="eyebrow">PRIVATE LIBRARY</div>
-        <h1>Reading Shelf</h1>
-      </div>
+      <div><div class="eyebrow">PRIVATE LIBRARY</div><h1>Reading Shelf</h1></div>
       <button class="circle" id="addBtn" aria-label="Add book">＋</button>
     </header>
 
-    <section>
-      <div class="sectionHead"><h2>Currently Reading</h2><span id="readingCount"></span></div>
-      <div class="rail" id="readingRail"></div>
+    <section id="homeView" class="view activeView">
+      <section>
+        <div class="sectionHead"><h2>Currently Reading</h2><span id="readingCount"></span></div>
+        <div class="rail" id="readingRail"></div>
+      </section>
+      <section>
+        <div class="sectionHead"><h2>Up Next</h2><span id="nextCount"></span></div>
+        <div class="rail" id="nextRail"></div>
+      </section>
+      <section class="library">
+        <div class="sectionHead"><h2>The Shelf</h2><button class="textBtn" id="randomBtn">Wander</button></div>
+        <input id="search" class="search" placeholder="Search books, authors, notes, ideas…" />
+        <div class="grid" id="libraryGrid"></div>
+      </section>
     </section>
 
-    <section>
-      <div class="sectionHead"><h2>Up Next</h2><span id="nextCount"></span></div>
-      <div class="rail" id="nextRail"></div>
+    <section id="journeyView" class="view">
+      <div class="viewTitle"><h2>Journey</h2><button class="infoBtn" data-help="journey" aria-label="About Journey">i</button></div>
+      <div id="journeyList" class="timeline"></div>
     </section>
 
-    <section class="library">
-      <div class="sectionHead"><h2>The Shelf</h2><button class="textBtn" id="randomBtn">Wander</button></div>
-      <input id="search" class="search" placeholder="Search books, authors, notes, ideas…" />
-      <div class="grid" id="libraryGrid"></div>
+    <section id="ideasView" class="view">
+      <div class="viewTitle"><h2>Ideas</h2><button class="infoBtn" data-help="ideas" aria-label="About Ideas">i</button></div>
+      <input id="ideaSearch" class="search" placeholder="Search across your reading notes…" />
+      <div id="ideasList"></div>
+    </section>
+
+    <section id="dataView" class="view">
+      <div class="viewTitle"><h2>My Reading Data</h2><button class="infoBtn" data-help="data" aria-label="About data">i</button></div>
+      <div class="exportCard">
+        <h3>Keep a backup</h3><p class="muted">The richest, portable copy of your archive.</p>
+        <button class="primary" id="exportJson">Full archive backup (.json)</button>
+      </div>
+      <div class="exportCard">
+        <h3>Open in Excel or Sheets</h3><p class="muted">A readable table of your books and reading history.</p>
+        <button id="exportCsv">Export spreadsheet (.csv)</button>
+      </div>
+      <div class="exportCard disabledCard">
+        <h3>Reading Report</h3><p class="muted">PDF and shareable yearly recap are planned downstream.</p>
+      </div>
+      <label class="photoPick">Restore full archive (.json)<input id="importFile" type="file" accept="application/json"></label>
     </section>
 
     <nav class="bottom">
-      <button data-view="shelf" class="active">Shelf</button>
+      <button data-view="home" class="active">Shelf</button>
       <button data-view="journey">Journey</button>
       <button data-view="ideas">Ideas</button>
-      <button data-view="settings">•••</button>
+      <button data-view="data">•••</button>
     </nav>
   </main>
 
-  <dialog id="bookDialog">
-    <form method="dialog" class="sheet" id="bookForm">
-      <button class="close" value="cancel">×</button>
-      <div id="dialogBody"></div>
-    </form>
-  </dialog>
+  <dialog id="bookDialog"><div class="sheet"><button class="close" id="closeBook">×</button><div id="dialogBody"></div></div></dialog>
 
   <dialog id="addDialog">
     <div class="sheet">
       <button class="close" id="closeAdd">×</button>
-      <div class="eyebrow">ADD A BOOK</div>
-      <h2>Start with the book itself.</h2>
-      <p class="muted">For V0: choose a cover photo from your iPhone. We keep the image and let you confirm the metadata rather than inventing it.</p>
+      <div class="eyebrow">ADD A BOOK</div><h2>Start with the book itself.</h2>
+      <p class="muted">Add it now; reading begins only when you press Start.</p>
       <label class="photoPick">📷 Choose / take cover photo<input id="coverInput" type="file" accept="image/*" capture="environment"></label>
       <img id="preview" class="preview hidden" alt="Cover preview"/>
-      <label>Title <input id="titleInput" placeholder="Optional until matched"/></label>
-      <label>Author <input id="authorInput" placeholder="Optional"/></label>
-      <label>Status
-        <select id="statusInput"><option value="upnext">Up Next</option><option value="reading">Currently Reading</option><option value="shelf">To Read</option></select>
-      </label>
-      <details>
-        <summary>Provenance — optional</summary>
-        <label>How it came to me
-          <select id="sourceType"><option value="">Unknown / not recorded</option><option>Bought</option><option>Gift</option><option>Borrowed</option><option>Other</option></select>
-        </label>
+      <label>Title <input id="titleInput" placeholder="Title"/></label>
+      <label>Author <input id="authorInput" placeholder="Author"/></label>
+      <label>Status<select id="statusInput"><option value="upnext">Up Next</option><option value="reading">Currently Reading</option><option value="shelf">To Read</option></select></label>
+      <details open>
+        <summary>Acquisition — optional</summary>
+        <label>How it came to me<select id="sourceType"><option value="">Unknown / not recorded</option><option>Bought</option><option>Gift</option><option>Borrowed</option><option>Other</option></select></label>
         <label>Where / from whom <input id="sourcePlace" placeholder="e.g. Daikanyama T-Site / a friend"/></label>
-        <label>When — exact or approximate <input id="acquiredWhen" placeholder="e.g. 2026-10-03, Oct 2026, Spring 2024"/></label>
+        <label>When <input id="acquiredWhen" placeholder="e.g. 2026-10-03, Oct 2026, Spring 2024"/></label>
+        <label>Date precision<select id="datePrecision"><option value="unknown">Unknown / free text</option><option value="day">Exact day</option><option value="week">Week</option><option value="month">Month</option><option value="season">Season</option><option value="year">Year</option><option value="range">Approximate range</option></select></label>
       </details>
       <button class="primary" id="saveBook" type="button">Add to shelf</button>
     </div>
   </dialog>
 
-  <dialog id="simpleDialog">
-    <div class="sheet">
-      <button class="close" id="closeSimple">×</button>
-      <div id="simpleBody"></div>
-    </div>
-  </dialog>
-
+  <dialog id="helpDialog"><div class="sheet compact"><button class="close" id="closeHelp">×</button><div id="helpBody"></div></div></dialog>
   <script src="app.js"></script>
 </body>
 </html>

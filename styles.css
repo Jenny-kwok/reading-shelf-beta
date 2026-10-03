@@ -31,3 +31,11 @@ dialog{border:0;padding:0;background:transparent;width:min(94%,520px)}dialog::ba
 details{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin-top:15px}summary{font-size:13px;color:var(--muted)}.statline{font-size:23px;margin:18px 0}.log{padding:12px 0;border-top:1px solid var(--line);font-size:13px}.log small{color:var(--muted)}
 .actionRow{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}.actionRow button{padding:12px;border-radius:13px;border:1px solid var(--line);background:transparent}
 @media(max-width:430px){.grid{grid-template-columns:repeat(3,1fr)}.book{min-width:137px;width:137px}.cover{width:137px;height:194px}}
+
+
+.view{display:none}.view.activeView{display:block}.viewTitle{display:flex;align-items:center;gap:8px;margin:4px 0 22px}.viewTitle h2{font-size:29px}
+.infoBtn{width:20px;height:20px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--muted);font-family:Georgia,serif;font-size:12px;padding:0}
+.timeline{border-left:1px solid var(--line);margin-left:8px}.journeyItem{display:grid;grid-template-columns:18px 1fr;gap:10px;padding:0 0 24px;cursor:pointer}.journeyDot{width:9px;height:9px;border-radius:50%;background:var(--walnut);margin-left:-5px;margin-top:5px}
+.ideaCard,.exportCard,.facts,.emptyState{border:1px solid var(--line);border-radius:17px;background:var(--glass);padding:16px;margin:0 0 12px}.ideaCard p{font-family:Iowan Old Style,Baskerville,Georgia,serif;font-size:18px;line-height:1.45;margin:8px 0}.ideaCard small{color:var(--muted)}
+.exportCard h3{font-family:Iowan Old Style,Baskerville,Georgia,serif;font-weight:400;font-size:20px;margin:0 0 5px}.exportCard button:not(.primary){width:100%;padding:13px;border:1px solid var(--line);border-radius:14px;background:var(--paper-2);margin-top:10px}.disabledCard{opacity:.68}
+.facts{display:grid;gap:10px;margin:15px 0}.facts div{font-size:13px}.facts small{display:block;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-size:9px;margin-bottom:3px}.pauseLog{border-top:1px solid var(--line);padding-top:4px}.ideaLink{border:0;background:none;color:var(--accent);padding:4px 0;font-size:11px}.compact{max-width:420px}
